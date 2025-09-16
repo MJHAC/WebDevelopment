@@ -1,0 +1,18 @@
+async function getHint(problemTitle) {
+  const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Authorization': 'Bearer YOUR_API_KEY',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      model: "gpt-4",
+      messages: [
+        { role: "system", content: "You are a helpful programming assistant." },
+        { role: "user", content: `Give a high-level hint for solving this problem: ${problemTitle}` }
+      ]
+    })
+  });
+  const data = await response.json();
+  return data.choices[0].message.content;
+}
